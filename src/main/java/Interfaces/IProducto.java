@@ -11,5 +11,6 @@ public interface IProducto {
 	public void EliminarProducto(TblProductocl3 producto);
 	public TblProductocl3 BuscarProducto(TblProductocl3 producto);
 	public List<TblProductocl3> ListadoProducto();
+	TblProductocl3 ObtenerProductoPorId(int idProducto);
 
 }

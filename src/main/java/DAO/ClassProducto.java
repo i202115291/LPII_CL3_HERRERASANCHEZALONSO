@@ -31,38 +31,43 @@ public class ClassProducto implements IProducto{
 
 	@Override
 	public void ActualizarProducto(TblProductocl3 producto) {
-		// TODO Auto-generated method stub
-		EntityManagerFactory fabr=Persistence.createEntityManagerFactory("LPII_CL3_HERRERASANCHEZALONSO");
-		//permite gestionar entidades
-		EntityManager em=fabr.createEntityManager();
-		//iniciar transaccion
-		em.getTransaction().begin();
-		//actualizamos
-		em.merge(producto);
-		//comfirmamos 
-		em.getTransaction().commit();
-		//cerramos
-		em.close();
+	    EntityManagerFactory fabr = Persistence.createEntityManagerFactory("LPII_CL3_HERRERASANCHEZALONSO");
+	    EntityManager em = fabr.createEntityManager();
+
+	    try {
+	        em.getTransaction().begin();
+	        // Actualiza el producto en la base de datos
+	        em.merge(producto);
+	        em.getTransaction().commit();
+	    } catch (Exception e) {
+	        em.getTransaction().rollback();
+	        throw e;
+	    } finally {
+	        em.close();
+	    }
 	}
 	
 	public void EliminarProducto(TblProductocl3 producto) {
-		//establecemos la conexion con unidad de persistencia.
-		EntityManagerFactory fabr=Persistence.createEntityManagerFactory("LPII_CL3_HERRERASANCHEZALONSO");
-		//gestionar las entidades
-		EntityManager em=fabr.createEntityManager();
-		//iniciamos la transaccion
-		em.getTransaction().begin();
-		//recuperamos el codigo a eliminar
-		TblProductocl3 elim=em.merge(producto);
-		//procedemos a eliminar el registro
-		em.remove(elim);
-		//emitimos mensaje por consola
-		System.out.println("Producto eliminado de la base de datos");
-		//confirmamos
-		em.getTransaction().commit();
-		//cerramos
-		em.close();
-		
+	    EntityManagerFactory fabr = Persistence.createEntityManagerFactory("LPII_CL3_HERRERASANCHEZALONSO");
+	    EntityManager em = fabr.createEntityManager();
+
+	    try {
+	        em.getTransaction().begin();
+	        // Recupera el producto por su ID y luego elimínalo
+	        TblProductocl3 elim = em.find(TblProductocl3.class, producto.getIdproductoscl3());
+	        if (elim != null) {
+	            em.remove(elim);
+	            System.out.println("Producto eliminado de la base de datos");
+	        } else {
+	            System.out.println("Producto no encontrado");
+	        }
+	        em.getTransaction().commit();
+	    } catch (Exception e) {
+	        em.getTransaction().rollback();
+	        throw e;
+	    } finally {
+	        em.close();
+	    }
 	}
 	
 	@Override
@@ -99,6 +104,23 @@ public class ClassProducto implements IProducto{
         //cerramos
         em.close();
 		return listadoproducto;
+	}
+	
+	@Override
+	public TblProductocl3 ObtenerProductoPorId(int idProducto) {
+	    EntityManagerFactory emf = Persistence.createEntityManagerFactory("LPII_CL3_HERRERASANCHEZALONSO");
+	    EntityManager em = emf.createEntityManager();
+
+	    try {
+	        // Busca el producto por ID
+	        TblProductocl3 producto = em.find(TblProductocl3.class, idProducto);
+	        return producto;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null; // Manejo de errores básico
+	    } finally {
+	        em.close();
+	    }
 	}
 
 }

@@ -40,8 +40,8 @@ public class ControladorUsuario extends HttpServlet {
 		String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
 
-        ClassUsuario dao = new ClassUsuario();
-        TblUsuariocl3 user = dao.validarUsuario(usuario, password);
+        ClassUsuario DAO = new ClassUsuario();
+        TblUsuariocl3 user = DAO.validarUsuario(usuario, password);
 
         if (user != null) {
             HttpSession session = request.getSession();

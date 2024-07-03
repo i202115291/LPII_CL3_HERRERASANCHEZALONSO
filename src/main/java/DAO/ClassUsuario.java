@@ -16,7 +16,7 @@ import model.TblUsuariocl3;
 public class ClassUsuario {
 
     // Datos de la conexión a la base de datos
-    private static final String URL = "jdbc:mysql://localhost:3306/BDHERRERASANCHEZALONSOCL3?serverTimezone=UTC";
+    private static final String URL = "jdbc:mysql://localhost:3306/BDHERRERASANCHEZCL3?serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = ""; // Añade tu contraseña aquí
 
@@ -34,7 +34,7 @@ public class ClassUsuario {
     // Método para validar el usuario
     public TblUsuariocl3 validarUsuario(String usuario, String password) {
         TblUsuariocl3 user = null;
-        String query = "SELECT * FROM TBL_USUARIOCL3 WHERE USUARIOCL3 = ? AND PASSWORDCL3 = ?";
+        String query = "SELECT * FROM tbl_usuariocl3 WHERE USUARIOCL3 = ? AND PASSWORDCL3 = ?";
         
         try (Connection con = getConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
